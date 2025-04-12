@@ -1,0 +1,12 @@
+# Byggefiler
+bin/
+obj/
+
+# Konfigurationer med følsomme data
+appsettings.json
+appsettings.Development.json
+
+# IDE-filer
+.vscode/
+*.user
+*.suo
