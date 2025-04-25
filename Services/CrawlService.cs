@@ -105,6 +105,7 @@ public class CrawlService
                 try
                 {
                     var absoluteUrl = new Uri(baseUri, href).ToString().Split('#')[0].TrimEnd('/');
+                    if (absoluteUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)) continue;
                     if (!discovered.Contains(absoluteUrl) && absoluteUrl.StartsWith(_crawlSettings.Domain))
                         discovered.Add(absoluteUrl);
                 }

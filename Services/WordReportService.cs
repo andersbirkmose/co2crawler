@@ -55,6 +55,7 @@ public class WordReportService
             sb.AppendLine($"HTML: {(results.Sum(r => r.HtmlBytes) / 1024.0).ToString("N0", culture)}");
             sb.AppendLine($"CSS: {(results.Sum(r => r.CssBytes) / 1024.0).ToString("N0", culture)}");
             sb.AppendLine($"JS: {(results.Sum(r => r.JsBytes) / 1024.0).ToString("N0", culture)}");
+            sb.AppendLine($"BILLEDER: {(results.Sum(r => r.ImageBytes) / 1024.0).ToString("N0", culture)}");
             sb.AppendLine($"VIDEO: {(results.Sum(r => r.VideoBytes) / 1024.0).ToString("N0", culture)}");
             sb.AppendLine("Iframe-videoer fra YouTube, Vimeo, Dreambroker, TwentyThree og VideoTool er estimeret til 5MB pr. video.");
 
@@ -66,17 +67,21 @@ public class WordReportService
 
             var vask = totalCo2 / 130;
             var biffer = totalCo2 / 4000;
-            var søgninger = totalCo2 / 0.25;
+            var te = totalCo2 / 20;
+            var mail = totalCo2 / 4;
             var opladninger = totalCo2 / 0.005;
-            
-            sb.AppendLine($"{totalCo2.ToString("N2",culture)} gram CO₂. Er det meget?");
+            var søgninger = totalCo2 / 0.25;
+
+            sb.AppendLine($"{totalCo2.ToString("N2", culture)} gram CO₂. Er det meget?");
             sb.AppendLine("Dit samlede website forbruger lige så meget CO₂ som:");
             sb.AppendLine($"🔌 {opladninger.ToString("N0", culture)} mobilopladninger (0,005g pr. opladning)");
             sb.AppendLine($"🔍 {søgninger.ToString("N0", culture)} Google-søgninger (0,25g pr. søgning)");
+            sb.AppendLine($"🍵 {te.ToString("N0", culture)} kopper te (20g pr. kop)");
+            sb.AppendLine($"📧 {mail.ToString("N0", culture)} e-mails (4g pr. e-mail)");
             sb.AppendLine($"🧺 {vask.ToString("N0", culture)} tøjvaske (130g pr. vask)");
             sb.AppendLine($"🥩 {biffer.ToString("N1", culture)} oksebøffer (4.000g pr. bøf)");
 
-            sb.AppendLine("\nDenne e-mailrapport giver et overblik over websitets CO₂-forbrug. Hvis du har brug for mere information og evt sammenholde tallene med din besøgsstatistik, er du velkommen til at kontakte mig på afb@kruso.dk.");
+            sb.AppendLine("\nDenne e-mailrapport giver et overblik over websitets CO₂-forbrug. Hvis du har brug for mere information og evt. sammenholde tallene med din besøgsstatistik, er du velkommen til at kontakte mig på afb@kruso.dk.");
 
             return sb.ToString();
         }
@@ -107,9 +112,10 @@ public class WordReportService
         html.Append($"<tr><td>HTML</td><td style='text-align:right'>{(results.Sum(r => r.HtmlBytes) / 1024.0).ToString("N0", culture)}</td></tr>");
         html.Append($"<tr><td>CSS</td><td style='text-align:right'>{(results.Sum(r => r.CssBytes) / 1024.0).ToString("N0", culture)}</td></tr>");
         html.Append($"<tr><td>JS</td><td style='text-align:right'>{(results.Sum(r => r.JsBytes) / 1024.0).ToString("N0", culture)}</td></tr>");
+        html.Append($"<tr><td>BILLEDER</td><td style='text-align:right'>{(results.Sum(r => r.ImageBytes) / 1024.0).ToString("N0", culture)}</td></tr>");
         html.Append($"<tr><td>VIDEO</td><td style='text-align:right'>{(results.Sum(r => r.VideoBytes) / 1024.0).ToString("N0", culture)}</td></tr>");
         html.Append("</table>");
-        html.Append("<p><em>Iframe-videoer fra YouTube, Vimeo, Dreambroker, TwentyThree og VideoTool er estimeret til 5MB pr. video.</em></p>");
+        html.Append("<p><em>Vi forudsætter, at iframe-videoer fra YouTube, Vimeo, Dreambroker, TwentyThree og VideoTool tæller med 5MB pr. video.</em></p>");
 
         html.Append("<h2>Benchmark: Din side vs. standard</h2>");
         html.Append($"<p>Din side: {avgCo2.ToString("N2", culture)}g<br>");
@@ -119,18 +125,21 @@ public class WordReportService
 
         var vask2 = totalCo2 / 130;
         var biffer2 = totalCo2 / 4000;
-        var søgninger2 = totalCo2 / 0.25;
+        var te2 = totalCo2 / 20;
+        var mail2 = totalCo2 / 4;
         var opladninger2 = totalCo2 / 0.005;
-        html.Append($"<h2> {totalCo2.ToString("N2",culture)} gram CO₂. Er det meget? </h2>");
+        var søgninger2 = totalCo2 / 0.25;
+
+        html.Append($"<h2>{totalCo2.ToString("N2", culture)} gram CO₂. Er det meget?</h2>");
         html.Append("<p>Dit samlede website forbruger lige så meget CO₂ som:</p>");
         html.Append($"<p>🔌 {opladninger2.ToString("N0", culture)} mobilopladninger (0,005g pr. opladning)<br>");
         html.Append($"🔍 {søgninger2.ToString("N0", culture)} Google-søgninger (0,25g pr. søgning)<br>");
+        html.Append($"🍵 {te2.ToString("N0", culture)} kopper te (20g pr. kop)<br>");
+        html.Append($"📧 {mail2.ToString("N0", culture)} e-mails (4g pr. e-mail)<br>");
         html.Append($"🧺 {vask2.ToString("N0", culture)} tøjvaske (130g pr. vask)<br>");
         html.Append($"🥩 {biffer2.ToString("N1", culture)} oksebøffer (4.000g pr. bøf)</p>");
-        
-        
 
-        html.Append("<p style='margin-top:2em; font-style:italic;'>Denne e-mailrapport giver et overblik over websitets CO₂-forbrug. Hvis du har brug for mere information og evt sammenholde tallene med din besøgsstatistik, er du velkommen til at kontakte mig på <a href='mailto:afb@kruso.dk'>afb@kruso.dk</a>.</p>");
+        html.Append("<p style='margin-top:2em; font-style:italic;'>Denne e-mailrapport giver et overblik over websitets CO₂-forbrug. Hvis du har brug for mere information og evt. sammenholde tallene med din besøgsstatistik, er du velkommen til at kontakte mig på <a href='mailto:afb@kruso.dk'>afb@kruso.dk</a>.</p>");
 
         html.Append("</body></html>");
         return html.ToString();
