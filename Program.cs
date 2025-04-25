@@ -18,10 +18,17 @@ var builder = Host.CreateDefaultBuilder(args)
         // Services
         services.AddSingleton<ReportService>();
         services.AddSingleton<CrawlService>();
+        services.AddSingleton<SitemapService>();
+        services.AddTransient<WordReportService>();
+        
+
+
+
     });
 
 var host = builder.Build();
 
 // Start crawler
 var crawlService = host.Services.GetRequiredService<CrawlService>();
-await crawlService.CrawlAndReportAsync();
+await crawlService.RunAsync();
+

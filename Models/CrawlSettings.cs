@@ -1,9 +1,8 @@
-namespace CO2Crawler.Models
+namespace CO2Crawler.Models;
+
+public class CrawlSettings
 {
-    public class CrawlSettings
-    {
-        public string Domain { get; set; } = string.Empty;
-        public string[] ExcludePaths { get; set; } = Array.Empty<string>();
-        public int MaxConcurrentRequests { get; set; } = 5;
-    }
+    public string Domain { get; set; } = string.Empty;
+    public int MaxConcurrency { get; set; } = 5;
+    public List<string> ExcludePaths { get; set; } = new();
 }
